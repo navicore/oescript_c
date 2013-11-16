@@ -1,0 +1,19 @@
+#note this is untested and almost certainly broken.  it is intended
+# to become the config for 'epm' to generate tarballs, rpms, etc...
+# for various pkg mgr targets like apt, rpm, yum, osx, ...
+#
+# note, we also intend to support gentoo/portage and freebsd/ports
+# ... and maybe a windows installer.
+#
+
+%product OnExtent Server
+%copyright 2007-2008 by OnExtent, LLC, All Rights Reserved
+%vendor OnExtent, LLC
+%license COPYING
+%readme README
+%description OnExtent Server is a shared memory tuple space for parallel distributed computing
+%version 0.1.0
+
+d 755 root root /opt/onextent/server/bin -
+f 755 root root /opt/onextent/server/bin/oeserver src/oeserver
+

@@ -1,0 +1,788 @@
+=head1 LICENCE AND COPYRIGHT
+ 
+ The contents of this file are subject to the Apache License
+ Version 2.0 (the "License"); you may not use this file except in
+ compliance with the License. You may obtain a copy of the License 
+ from the file named COPYING and from http://www.apache.org/licenses/.
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+ The Original Code is OeScript.
+
+ The Initial Developer of the Original Code is OnExtent, LLC.
+ Portions created by OnExtent, LLC are Copyright (C) 2008-2010
+ OnExtent, LLC. All Rights Reserved.
+
+=head1 NAME
+
+oescript - user api for OeScript distributed computing environment
+
+=head1 NAME
+
+This documentation refers to OeScript version @VERSION@.
+
+=cut 
+
+
+package oescript::OesBuiltInLoginModule;
+use oescriptimpl;
+use Moose;
+
+has builtinloginmoduleimpl => (
+      is       => 'rw',
+      isa      => 'oescriptimpl::OesBuiltInLoginModule',
+      writer   => '_set_builtinloginmoduleimpl',
+      reader   => '_get_builtinloginmoduleimpl',
+);
+
+has loginmoduleimpl => (
+      is       => 'rw',
+      isa      => 'oescriptimpl::OesLoginModule',
+      writer   => '_set_loginmoduleimpl',
+      reader   => '_get_loginmoduleimpl',
+);
+
+sub addAccount {
+   my ($self, $grpname, $uname, $pwd) = @_;
+   $self->_get_builtinloginmoduleimpl->addAccount($grpname, $uname, $pwd);
+}
+
+sub addPrivilege {
+   my ($self, $extname, $grpname, $mtemplate) = @_;
+   $self->_get_builtinloginmoduleimpl->addPrivilege($extname, $grpname, $mtemplate);
+}
+
+sub BUILD {
+   my ($self) = shift;
+   my $bi =  oescriptimpl::OesBuiltInLoginModule->new();
+   $self->_set_builtinloginmoduleimpl($bi);
+   my $m =  $bi->getModule();
+   $self->_set_loginmoduleimpl($m);
+}
+
+__PACKAGE__->meta->make_immutable;
+no Moose;
+
+package oescript::OesDispatcher;
+use oescriptimpl;
+use Moose;
+
+has dispatcherimpl => (
+      is       => 'rw',
+      isa      => 'oescriptimpl::OesDispatcher',
+      writer   => '_set_dispatcherimpl',
+      reader   => '_get_dispatcherimpl',
+);
+
+has name => (
+      is       => 'ro',
+      isa      => 'Str',
+      required => 1,
+);
+
+has is_async   => (
+      is       => 'ro',
+      isa      => 'Int',
+      required => 1,
+);
+
+sub start {
+   my ($self) = shift;
+   $self->_get_dispatcherimpl->start();
+}
+
+sub BUILD {
+   my ($self) = shift;
+   my $d =  oescriptimpl::OesDispatcher->new($self->is_async, $self->name);
+   $self->_set_dispatcherimpl($d);
+}
+
+__PACKAGE__->meta->make_immutable;
+no Moose;
+
+package oescript::OesFuture;
+use Moose;
+use strict;
+use warnings;
+
+has 'promise' => (
+    traits    => ['Code'],
+    is        => 'ro',
+    isa       => 'CodeRef',
+    required  => 1,
+    handles   => {
+        get => 'execute',
+    },
+);
+
+__PACKAGE__->meta->make_immutable;
+no Moose;
+
+
+package oescript::OesKernel;
+use oescriptimpl;
+use oescript;
+use Moose;
+use Storable qw(nfreeze thaw);
+
+my $DEFAULT_DUR = 1000 * 60 * 60 * 24; # 24 hours
+my $DEFAULT_TXN_DUR = 1000 * 60 * 10; # 10 minutes
+my $DEFAULT_TIMEOUT = 1000 * 10; # 10 seconds
+my $ARRAY_TYPE = ref [];
+my $HASH_TYPE = ref {};
+my $UNDEF_TXT = "__NULL__";
+my $SKIP_TXT = "_";
+my $WILD_CARD_TXT = "_";
+
+has kernelimpl => (
+      is       => 'rw',
+      isa      => 'oescriptimpl::OesKernel',
+      writer   => '_set_kernelimpl',
+      reader   => '_get_kernelimpl',
+      required => 0,
+);
+
+has store => (
+      is       => 'ro',
+      isa      => 'oescript::OesStore',
+      required => 0,
+);
+
+has dispatcher => (
+      is       => 'ro',
+      isa      => 'oescript::OesDispatcher',
+      required => 1,
+);
+
+has tdispatcher => (
+      is       => 'ro',
+      isa      => 'oescript::OesThreadDispatcher',
+      required => 0,
+);
+
+has serialize => (
+      is       => 'ro',
+      isa      => 'Bool',
+      default  => 0,
+      required => 0,
+      reader   => '_serialize',
+);
+
+#optionally instantiate network client to connect to remote kernel
+has netspec => (
+      is       => 'ro',
+      isa      => 'Str',
+      required => 0,
+);
+
+has username => (
+      is       => 'ro',
+      isa      => 'Str',
+      required => 0,
+);
+
+has pwd => (
+      is       => 'ro',
+      isa      => 'Str',
+      required => 0,
+);
+
+has net => (
+      is       => 'ro',
+      isa      => 'oescript::OesNet',
+      required => 0,
+);
+
+sub BUILD {
+   my ($self) = shift;
+   my $k;
+   if ($self->netspec) {
+       $k = oescriptimpl::OesKernel->new($self->dispatcher->_get_dispatcherimpl,
+                                         undef,
+                                         undef,
+                                         $self->netspec,
+                                         $self->net->_get_netimpl,
+                                         $self->username,
+                                         $self->pwd);
+   } else {
+       $k = oescriptimpl::OesKernel->new($self->dispatcher->_get_dispatcherimpl,
+                                         $self->tdispatcher->_get_dispatcherimpl,
+                                         $self->store->_get_storeimpl,
+                                         undef,
+                                         undef,
+                                         undef,
+                                         undef);
+   }
+   $self->_set_kernelimpl($k);
+}
+
+sub _fix_write_entry {
+   my ($entry) = @_;
+   if (ref $entry eq $ARRAY_TYPE) {
+      $SKIP_TXT;
+   } elsif  (ref $entry eq $HASH_TYPE) {
+      $SKIP_TXT;
+   } elsif (!defined $entry) {
+      $UNDEF_TXT;
+   } else {
+      $entry;
+   }
+}
+
+sub _fix_read_entry {
+   my ($entry) = @_;
+   if (ref $entry eq $ARRAY_TYPE) {
+      die "can not match an array field, templates can only contain scalars";
+   } elsif  (ref $entry eq $HASH_TYPE) {
+      die "can not match a hash field, templates can only contain scalars";
+   } elsif (!defined $entry) {
+      $UNDEF_TXT;
+   } else {
+      $entry;
+   }
+}
+
+sub _fix_result_entry {
+   my ($entry) = @_;
+   if ($entry eq $UNDEF_TXT) {
+      undef;
+   } else {
+      $entry;
+   }
+}
+
+sub _writeList {
+   my ($self, $dur, $list_ref, $slist) = @_;
+
+   foreach my $item (@{$list_ref}) {
+      $slist->add_attr(_fix_write_entry($item));
+   }
+   my $leaseimpl = $self->_get_kernelimpl->write($slist, $dur, 1);
+   oescript::OesLease->new(leaseimpl => $leaseimpl);
+}
+
+sub _writeHash {
+   my ($self, $dur, $hash_ref, $slist) = @_;
+
+   foreach my $key (keys %{$hash_ref}) {
+      my $val = $hash_ref->{$key};
+      my $wkey = _fix_read_entry($key);
+      my $wval = _fix_read_entry($val);
+      if ($wval eq $SKIP_TXT) {next;}
+      if ($wkey eq $SKIP_TXT) {next;}
+      $slist->add_attr($wkey);
+      $slist->add_attr($wval);
+   }
+   my $leaseimpl = $self->_get_kernelimpl->write($slist, $dur, 0);
+   oescript::OesLease->new(leaseimpl => $leaseimpl);
+}
+
+sub write {
+   my ($self) = shift;
+   my ($arg_ref) = @_;
+   my $dur = exists $arg_ref->{dur} ? $arg_ref->{dur} : $DEFAULT_DUR;
+   my $data_ref = exists $arg_ref->{data_ref} ? $arg_ref->{data_ref} : die "missing 'data_ref' arg";
+   my $slist = oescriptimpl::OesDataObject->new();
+   if ($self->_serialize) { #serialize bytes
+      my $ser = nfreeze($data_ref);
+      $slist->set_nbytes(length $ser);
+      $slist->set_bytes($ser);
+   }
+   if (ref $data_ref eq $HASH_TYPE) {
+      _writeHash($self, $dur, $data_ref, $slist);
+   } elsif (ref $data_ref eq $ARRAY_TYPE) {
+      _writeList($self, $dur, $data_ref, $slist);
+   } else {
+      #ejs todo: use croak (exceptions)
+      die "must specify a 'data_ref' to a list or hash";
+   }
+}
+
+sub _populate_result_list_item {
+   my ($self, $result) = @_;
+
+   if ($self->_serialize) { #de-serialize bytes
+      my $rawbytes = $result->get_bytes();
+      thaw($rawbytes);
+   } else {
+      my @resultList;
+      my $i = 0;
+      for (my $iter = $result->iter(); $iter->hasMore(); $i++) {
+         $resultList[$i] = _fix_result_entry($iter->nextItem());
+      }
+      \@resultList;
+   }
+}
+
+sub _populate_result_hash_item {
+   my ($self, $result) = @_;
+
+   if ($self->_serialize) { #de-serialize bytes
+      my $rawbytes = $result->get_bytes();
+      thaw($rawbytes);
+   } else {
+      my %resultHash;
+      my $iter = $result->iter();
+      while ($iter->hasMore()) {
+         my $k = $iter->nextItem();
+         my $v = _fix_result_entry($iter->nextItem());
+         $resultHash{$k} = $v;
+      }
+      \%resultHash;
+   }
+}
+
+#todo: support 'and' and 'or'
+sub _get_list {
+   my ($self, $destroy, $timeout, $list_template_ref, $nresults) = @_;
+
+   my $slistlist = oescriptimpl::OesDataObjectList->new();
+   my $slist = $slistlist->newDataObject();
+   foreach my $item (@{$list_template_ref}) {
+      $slist->add_attr(_fix_read_entry($item));
+   }
+
+   my $results;
+   if ($destroy) {
+      $results = $self->_get_kernelimpl->take($slistlist, $timeout, 1, $nresults,
+      1, 1);
+      #!$self->_serialize, $self->_serialize);
+   } else {
+      $results = $self->_get_kernelimpl->read($slistlist, $timeout, 1, $nresults,
+      1, 1);
+      #!$self->_serialize, $self->_serialize);
+   }
+
+   my $iter = $results->iter();
+   sub {
+      if ($iter->hasMore()) {
+         my $result = $iter->nextItem();
+         &_populate_result_list_item($self, $result)
+      } else {undef};
+   };
+}
+
+#todo: support 'and' and 'or'
+sub _get_hash {
+   my ($self, $destroy, $timeout, $hash_template_ref, $nresults) = @_;
+
+   my $slistlist = oescriptimpl::OesDataObjectList->new();
+   my $slist = $slistlist->newDataObject();
+   foreach my $key (keys %{$hash_template_ref}) {
+      my $val = $hash_template_ref->{$key};
+      my $tkey = _fix_read_entry($key);
+      my $tval = _fix_read_entry($val);
+      if ($tkey eq $SKIP_TXT) {next;}
+      if ($tval eq $SKIP_TXT) {next;}
+      $slist->add_attr($tkey);
+      $slist->add_attr($tval);
+   }
+
+   my $results;
+   if ($destroy) {
+      $results = $self->_get_kernelimpl->take($slistlist, $timeout, 0, $nresults,
+      1, 1);
+      #!$self->_serialize, $self->_serialize);
+   } else {
+      $results = $self->_get_kernelimpl->read($slistlist, $timeout, 0, $nresults,
+      1, 1);
+      #!$self->_serialize, $self->_serialize);
+   }
+
+   my $iter = $results->iter();
+   sub {
+      if ($iter->hasMore()) {
+         my $result = $iter->nextItem();
+         &_populate_result_hash_item($self, $result);
+      } else {undef};
+   }
+}
+
+sub _get {
+   my $destroy = shift;
+   my ($self) = shift;
+   my ($arg_ref) = @_;
+   my $timeout = exists $arg_ref->{timeout} ? $arg_ref->{timeout} : $DEFAULT_TIMEOUT;
+   my $nresults = exists $arg_ref->{nresults} ? $arg_ref->{nresults} : 1;
+   my $template_ref = exists $arg_ref->{template_ref} ? $arg_ref->{template_ref} : die "missing 'template_ref' arg";
+   #ejs todo: use croak (exceptions)
+
+   if (ref $template_ref eq $HASH_TYPE) {
+      _get_hash($self, $destroy, $timeout, $template_ref, $nresults);
+   } elsif (ref $template_ref eq $ARRAY_TYPE) {
+      _get_list($self, $destroy, $timeout, $template_ref, $nresults);
+   } else {
+      #ejs todo: use croak (exceptions)
+      die "must specify a 'template_ref' to a list or hash";
+   }
+}
+
+sub read {
+   _get(0, @_);
+}
+
+sub take {
+   _get(1, @_);
+}
+
+sub begin {
+   my ($self) = shift;
+   my ($arg_ref) = @_;
+   my $dur = exists $arg_ref->{dur} ? $arg_ref->{dur} : $DEFAULT_TXN_DUR;
+   my $txnimpl = $self->_get_kernelimpl->begin($dur);
+   oescript::OesTxn->new(_txnimpl => $txnimpl);
+}
+
+__PACKAGE__->meta->make_immutable;
+no Moose;
+
+
+package oescript::OesLease;
+use oescriptimpl;
+use Moose;
+
+has leaseimpl => (
+      is       => 'ro',
+      isa      => 'oescriptimpl::OesLease',
+      reader   => '_get_leaseimpl',
+      required => 1,
+);
+
+has lid => (
+      is          => 'ro',
+      isa         => 'Int',
+      lazy_build  => 1,
+      init_arg    => undef,
+);
+
+has exptime => (
+      is          => 'ro',
+      isa         => 'Int', #timestamp
+      lazy_build  => 1,
+      clearer     => '_clear_exptime',
+      writer      => '_write_exptime',
+      init_arg    => undef,
+);
+
+sub cancel {
+   my ($self) = shift;
+   $self->_clear_exptime();
+   $self->_get_leaseimpl->cancel();
+}
+
+sub _build_lid {
+   my ($self) = shift;
+   $self->_get_leaseimpl->lid();
+}
+
+sub _build_exptime {
+   my ($self) = shift;
+   my $exptime = $self->_get_leaseimpl->exptime();
+   int($exptime / 1000);
+}
+
+__PACKAGE__->meta->make_immutable;
+no Moose;
+
+
+package oescript::OesNet;
+use oescriptimpl;
+use Moose;
+
+has netimpl => (
+      is       => 'rw',
+      isa      => 'oescriptimpl::OesNet',
+      writer   => '_set_netimpl',
+      reader   => '_get_netimpl',
+);
+
+has dispatcher => (
+      is       => 'ro',
+      isa      => 'oescript::OesDispatcher',
+      required => 1,
+);
+
+has use_ssl => (
+      is       => 'ro',
+      isa      => 'Bool',
+      default  => 0,
+      required => 0,
+      reader   => '_use_ssl',
+);
+
+has cert => (
+      is       => 'ro',
+      isa      => 'Str',
+      required => 0,
+);
+
+has pkey => (
+      is       => 'ro',
+      isa      => 'Str',
+      required => 0,
+);
+
+sub BUILD {
+   my ($self) = shift;
+   my $n =  oescriptimpl::OesNet->new($self->dispatcher->_get_dispatcherimpl, $self->_use_ssl, $self->cert, $self->pkey);
+   $self->_set_netimpl($n);
+}
+
+__PACKAGE__->meta->make_immutable;
+no Moose;
+
+
+package oescript::OesServer;
+use oescriptimpl;
+use Moose;
+
+has serverimpl => (
+      is       => 'rw',
+      isa      => 'oescriptimpl::OesServer',
+      writer   => '_set_serverimpl',
+      reader   => '_get_serverimpl',
+);
+
+has dispatcher => (
+      is       => 'ro',
+      isa      => 'oescript::OesDispatcher',
+      required => 1,
+);
+
+has netspec => (
+      is       => 'ro',
+      isa      => 'Str',
+      required => 1,
+);
+
+has net => (
+      is       => 'ro',
+      isa      => 'oescript::OesNet',
+      required => 1,
+);
+
+has net => (
+      is       => 'ro',
+      isa      => 'oescript::OesNet',
+      required => 1,
+);
+
+has store => (
+      is       => 'ro',
+      isa      => 'oescript::OesStore',
+      required => 1,
+);
+
+sub addLoginModule {
+   my ($self, $loginmod) = @_;
+
+   $self->_get_serverimpl->addLoginModule($loginmod->_get_loginmoduleimpl);
+}
+
+sub addKernel {
+   my ($self, $extentname, $kernel) = @_;
+
+   $self->_get_serverimpl->addKernel($extentname, $kernel->_get_kernelimpl);
+}
+
+sub BUILD {
+   my ($self) = shift;
+   my $s =  oescriptimpl::OesServer->new($self->dispatcher->_get_dispatcherimpl,
+                                         $self->netspec,
+                                         $self->net->_get_netimpl,
+                                         $self->store->_get_storeimpl);
+   $self->_set_serverimpl($s);
+}
+
+__PACKAGE__->meta->make_immutable;
+no Moose;
+
+
+package oescript::OesSigHandler;
+use oescriptimpl;
+use Moose;
+
+has sighandlerimpl => (
+      is       => 'rw',
+      isa      => 'oescriptimpl::OesSigHandler',
+      writer   => '_set_sighandlerimpl',
+      reader   => '_get_sighandlerimpl',
+);
+
+has file_name => (
+      is       => 'ro',
+      isa      => 'Str',
+      required => 1,
+);
+
+has appname => (
+      is       => 'ro',
+      isa      => 'Str',
+      required => 1,
+);
+
+has loglvl => (
+      is       => 'ro',
+      isa      => 'Str',
+      required => 1,
+);
+
+sub BUILD {
+   my ($self) = shift;
+   my $sh = oescriptimpl::OesSigHandler->new($self->file_name, $self->appname, $self->loglvl);
+   $self->_set_sighandlerimpl($sh);
+}
+
+__PACKAGE__->meta->make_immutable;
+no Moose;
+
+
+package oescript::OesStore;
+use oescriptimpl;
+use Moose;
+
+has storeimpl => (
+      is       => 'rw',
+      isa      => 'oescriptimpl::OesStore',
+      writer   => '_set_storeimpl',
+      reader   => '_get_storeimpl',
+);
+
+has persist_level   => (
+      is       => 'ro',
+      isa      => 'Int',
+      required => 1,
+);
+
+has datadir   => (
+      is       => 'ro',
+      isa      => 'Str',
+      required => 1,
+);
+
+has is_async   => (
+      is       => 'ro',
+      isa      => 'Int',
+      required => 1,
+);
+
+sub BUILD {
+   my ($self) = shift;
+   my $s =  oescriptimpl::OesStore->new($self->persist_level,
+                                        $self->datadir, $self->is_async);
+   $self->_set_storeimpl($s);
+}
+
+__PACKAGE__->meta->make_immutable;
+no Moose;
+
+
+package oescript::OesThreadDispatcher;
+use oescriptimpl;
+use Moose;
+
+has dispatcherimpl => (
+      is       => 'rw',
+      isa      => 'oescriptimpl::OesThreadDispatcher',
+      writer   => '_set_dispatcherimpl',
+      reader   => '_get_dispatcherimpl',
+);
+
+has nthreads   => (
+      is       => 'ro',
+      isa      => 'Int',
+      required => 1,
+);
+
+sub start {
+   my ($self) = shift;
+   $self->_get_dispatcherimpl->start();
+}
+
+sub BUILD {
+   my ($self) = shift;
+   my $d =  oescriptimpl::OesThreadDispatcher->new($self->nthreads);
+   $self->_set_dispatcherimpl($d);
+}
+
+__PACKAGE__->meta->make_immutable;
+no Moose;
+
+
+package oescript::OesTxn;
+use oescriptimpl;
+use Moose;
+
+has _txnimpl => (
+      is       => 'ro',
+      isa      => 'oescriptimpl::OesTxn',
+      reader   => '_get_txnimpl',
+      required => 1,
+);
+
+has status => (
+      is          => 'rw',
+      isa         => 'Str',
+      lazy_build  => 1,
+      clearer     => '_clear_status',
+      writer      => '_write_status',
+      init_arg    => undef,
+);
+
+has tid => (
+      is          => 'ro',
+      isa         => 'Int',
+      lazy_build  => 1,
+      init_arg    => undef,
+);
+
+has exptime => (
+      is          => 'rw',
+      isa         => 'Int', #timestamp
+      lazy_build  => 1,
+      clearer     => '_clear_exptime',
+      writer      => '_write_exptime',
+      init_arg    => undef,
+);
+
+sub commit {
+   my ($self) = shift;
+   $self->_clear_status();
+   $self->_clear_exptime();
+   $self->_get_txnimpl->commit();
+}
+
+sub rollback {
+   my ($self) = shift;
+   $self->_clear_status();
+   $self->_clear_exptime();
+   $self->_get_txnimpl->rollback();
+}
+
+sub _build_status {
+   my ($self) = shift;
+   my $status_impl =  $self->_get_txnimpl->status();
+   return "A" if $status_impl == $oescriptimpl::ACTIVE;
+   return "C" if $status_impl == $oescriptimpl::COMMITTED;
+   return "R" if $status_impl == $oescriptimpl::ROLLEDBACK;
+   die "invalid txn status\n";
+}
+
+sub _build_tid {
+   my ($self) = shift;
+   $self->_get_txnimpl->tid();
+}
+
+sub _build_exptime {
+   my ($self) = shift;
+   my $exptime = $self->_get_txnimpl->exptime();
+   int($exptime / 1000);
+}
+
+__PACKAGE__->meta->make_immutable;
+no Moose;
+

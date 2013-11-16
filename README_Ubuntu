@@ -1,0 +1,36 @@
+dev machine setup:
+
+sudo apt-get install libssl-dev flex bison openssl libevent-dev swig lua5.1-dev db5.1-dev automake autoconf libtool build-essential libpam-dev libdatetime-perl libmoose-perl git
+
+manual install of latest node into default /usr/local
+
+for debugging db, install debugging build manually and use:
+
+./configure CFLAGS=-I/usr/local/BerkeleyDB.5.3/include LDFLAGS=-L/usr/local/BerkeleyDB.5.3/lib --with-db-lib=db-5.3 --with-db-header=db.h
+
+apt-get install libevent-dev
+apt-get install python-dev
+apt-get install ruby-dev
+apt-get install lua5.1 lua5.1-dev
+apt-get install flex bison
+apt-get install build-essential automake libtool autoconf
+apt-get install libpam-dev
+apt-get install libperl-dev
+apt-get install libmoose-perl
+apt-get install libdatetime-perl
+apt-get install php5-cli php5-dev
+apt-get install guile-2.0 guile-2.0-dev
+apt-get install r-base-core
+
+apt-get install swig
+apt-get install openjdk-7-jdk
+apt-get install libdb-dev
+
+or one big cmd:
+
+apt-get install libevent-dev python-dev ruby-dev lua5.1 lua5.1-dev flex bison build-essential automake libtool autoconf libpam-dev libperl-dev libmoose-perl libdatetime-perl php5-cli php5-dev guile-2.0 guile-2.0-dev r-base-core swig openjdk-7-jdk libdb-dev
+
+mkdir /opt/nodejs8
+chown node /opt/nodejs8
+# then put node v0.8.15 in there
+

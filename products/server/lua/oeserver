@@ -1,0 +1,18 @@
+#!/sbin/runscript
+
+depend() {
+  need net
+}
+
+start(){
+  ebegin "Starting OeScript Server"
+  start-stop-daemon --start --background --make-pidfile -1 /var/log/oeserver.log -2 /var/log/oeserver.error --chdir /opt/onextent/server/share/lua/bin --pidfile /var/run/oeserver.pid --exec /usr/bin/lua -- /opt/onextent/server/share/lua/bin/oeserver.lua
+  eend $?
+}
+
+stop(){
+  ebegin "Stopping OeScript Server"
+  start-stop-daemon --stop --pidfile /var/run/oeserver.pid 
+  eend $?
+}
+

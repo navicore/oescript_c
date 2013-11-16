@@ -1,0 +1,33 @@
+{
+  "name": "oescript",
+  "description": "OeScript Tuple and Map Spaces API",
+  "version": "@VERSION@",
+  "repository": {
+    "type": "git",
+    "url": "ssh://code.onextent.com/~git/oescript"
+  },
+  "dependencies": {
+      "passport": ">=0.1.8",
+      "passport-twitter": ">=0.1.3",
+      "passport-local": ">=0.1.2",
+      "passport-google-oauth": ">=0.1.4",
+      "passport-github": ">=0.1.3",
+      "jade": ">= 0.26.0",
+      "stylus": ">= 0.27.0",
+      "connect-flash": ">= 0.0.0",
+      "express": ">=2.5.9"
+  },
+  "config": { "native" : false },
+  "private": true,
+  "scripts": {
+    "preinstall": "/opt/nodejs8/bin/node-waf clean || (exit 0); /opt/nodejs8/bin/node-waf configure build",
+    "test": "/opt/nodejs8/bin/node test/test_server_parts.js"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  },
+  "author": "Ed Sweeney <ed@onextent.com> (http://www.onextent.com)",
+  "homepage": "http://www.oescript.net"
+}

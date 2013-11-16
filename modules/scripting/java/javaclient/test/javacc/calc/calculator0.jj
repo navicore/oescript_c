@@ -1,0 +1,98 @@
+/* calculator.jj Adding up numbers */
+options {
+    STATIC = false ;
+}
+
+
+PARSER_BEGIN(Calculator)
+    import java.io.*;
+    class Calculator {
+      double previousValue = 0.0;
+    }
+PARSER_END(Calculator)
+
+
+SKIP : { " " }
+TOKEN : { < EOL : "\n"|"\r"|"\r\n" > }
+TOKEN : { < PLUS : "+" > }
+TOKEN : { < MINUS : "-" > }
+TOKEN : { < TIMES : "*" > }
+TOKEN : { < DIVIDE : "/" > }
+TOKEN : { < OPEN_PAR : "(" > }
+TOKEN : { < CLOSE_PAR : ")" > }
+TOKEN : { < PREVIOUS : "$" > }
+TOKEN : { < NUMBER : <DIGITS> | <DIGITS> "." <DIGITS> | <DIGITS> "." | "."
+<DIGITS> > }
+TOKEN : { < #DIGITS : (["0"-"9"])+ > }
+
+
+double Start(PrintStream ps) throws NumberFormatException :
+{}
+{
+    (
+        previousValue = Expression()
+        <EOL>
+        { ps.println( previousValue ) ; 
+          return previousValue;
+        }
+    )*
+    <EOF>
+}
+
+double Expression() throws NumberFormatException :
+{
+    double i;
+    double value;
+}
+{
+    value = Term()
+    (
+        <PLUS>
+        i = Term()
+        { value += i ; }
+    |
+        <MINUS>
+        i = Term()
+        { value -= i ; }
+    )*
+    { return value; }
+}
+
+double Term() throws NumberFormatException :
+{
+    double i;
+    double value;
+}
+{
+    value = Primary()
+    (
+        <TIMES>
+        i = Primary()
+        { value *= i ; }
+    |
+        <DIVIDE>
+        i = Primary()
+        { value /= i ; }
+    )*
+    { return value; }
+}
+
+double Primary() throws NumberFormatException :
+{
+    Token t ;
+    double d ;
+}
+{
+    t = <NUMBER>
+    { return Double.parseDouble( t.image ) ; }
+|
+    <PREVIOUS>
+    { return previousValue ; }
+|
+    <OPEN_PAR> d=Expression() <CLOSE_PAR>
+    { return d ; }
+|
+    <MINUS> d=Primary()
+    { return -d ; }
+}
+

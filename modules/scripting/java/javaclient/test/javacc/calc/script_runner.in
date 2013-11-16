@@ -1,0 +1,8 @@
+#!/bin/sh
+
+CLASSPATH=.
+export CLASSPATH
+
+@JAVA@ -classpath $CLASSPATH -ea:test_javacc_calc test_javacc_calc
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+

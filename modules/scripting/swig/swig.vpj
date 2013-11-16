@@ -1,0 +1,420 @@
+<!DOCTYPE Project SYSTEM "http://www.slickedit.com/dtd/vse/10.0/vpj.dtd">
+<Project
+    Version="10.0"
+    VendorName="SlickEdit"
+    WorkingDir=".">
+    <Config
+        Name="Debug"
+        Type="cpp"
+        DebugCallbackName="gdb"
+        OutputFile="%bdswig"
+        CompilerConfigName="Latest Version">
+        <Menu>
+            <Target
+                Name="Compile"
+                MenuCaption="&amp;Compile"
+                CaptureOutputWith="ProcessBuffer"
+                OutputExts="*.o"
+                SaveOption="SaveCurrent"
+                RunFromDir="%rw">
+                <Exec CmdLine='cc -c -g %i %defd -o "%bd%n.o" "%f"'/>
+            </Target>
+            <Target
+                Name="Link"
+                MenuCaption="&amp;Link">
+                <Exec CmdLine='cc -g -o "%o" %f %libs'/>
+            </Target>
+            <Target
+                Name="Build"
+                MenuCaption="&amp;Build"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%(VSLICKBIN1)vsbuild" build "%w" "%r"'/>
+            </Target>
+            <Target
+                Name="Rebuild"
+                MenuCaption="&amp;Rebuild"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%(VSLICKBIN1)vsbuild" rebuild "%w" "%r"'/>
+            </Target>
+            <Target
+                Name="Debug"
+                MenuCaption="&amp;Debug"
+                SaveOption="SaveNone"
+                BuildFirst="1"
+                CaptureOutputWith="ProcessBuffer"
+                RunFromDir="%rw">
+                <Exec CmdLine='vsdebugio -prog "%o"'/>
+            </Target>
+            <Target
+                Name="Execute"
+                MenuCaption="E&amp;xecute"
+                SaveOption="SaveNone"
+                BuildFirst="1"
+                CaptureOutputWith="ProcessBuffer"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%o"'/>
+            </Target>
+        </Menu>
+    </Config>
+    <Config
+        Name="Release"
+        Type="cpp"
+        DebugCallbackName="gdb"
+        OutputFile="%bdswig"
+        CompilerConfigName="Latest Version">
+        <Menu>
+            <Target
+                Name="Compile"
+                MenuCaption="&amp;Compile"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveCurrent"
+                OutputExts="*.o"
+                RunFromDir="%rw">
+                <Exec CmdLine='cc -c -O %i %defd -o "%bd%n.o" "%f"'/>
+            </Target>
+            <Target
+                Name="Link"
+                MenuCaption="&amp;Link">
+                <Exec CmdLine='cc -O -o "%o" %f %libs'/>
+            </Target>
+            <Target
+                Name="Build"
+                MenuCaption="&amp;Build"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%(VSLICKBIN1)vsbuild" build "%w" "%r"'/>
+            </Target>
+            <Target
+                Name="Rebuild"
+                MenuCaption="&amp;Rebuild"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%(VSLICKBIN1)vsbuild" rebuild "%w" "%r"'/>
+            </Target>
+            <Target
+                Name="Debug"
+                MenuCaption="&amp;Debug"
+                SaveOption="SaveNone"
+                BuildFirst="1"
+                CaptureOutputWith="ProcessBuffer"
+                RunFromDir="%rw">
+                <Exec CmdLine='vsdebugio -prog "%o"'/>
+            </Target>
+            <Target
+                Name="Execute"
+                MenuCaption="E&amp;xecute"
+                SaveOption="SaveNone"
+                BuildFirst="1"
+                CaptureOutputWith="ProcessBuffer"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%o"'/>
+            </Target>
+        </Menu>
+    </Config>
+    <Rules Name="Compile">
+        <Rule
+            InputExts="*.s"
+            OutputExts="*.o"
+            LinkObject="1">
+            <Exec CmdLine='as -o "%bd%n.o" "%f"'/>
+        </Rule>
+    </Rules>
+    <Files>
+        <Folder
+            Name="Source Files"
+            Filters="*.c;*.C;*.cc;*.cpp;*.cp;*.cxx;*.c++;*.prg;*.pas;*.dpr;*.asm;*.s;*.bas;*.java;*.cs;*.sc;*.e;*.cob;*.html;*.rc;*.tcl;*.py;*.pl;*.d">
+            <F N="java/src/java/org/oescript/java/swig/OES_TXN_STATUS.java"/>
+            <F N="java/src/java/org/oescript/java/swig/OesBuiltInLoginModule.java"/>
+            <F N="python/pythonmod/oescript.py"/>
+            <F N="go/golib/OeScript_go_wrap.c"/>
+            <F N="guile/OeScript_guile_wrap.c"/>
+            <F N="java/OeScript_java_wrap.c"/>
+            <F N="lua/lualib/OeScript_lua_wrap.c"/>
+            <F N="perl/perllib/OeScript_perl5_wrap.c"/>
+            <F N="php/OeScript_php_wrap.c"/>
+            <F N="python/pythonlib/OeScript_python_wrap.c"/>
+            <F N="R/rlib/OeScript_R_wrap.c"/>
+            <F N="ruby/OeScript_ruby_wrap.c"/>
+            <F N="tcl/OeScript_tcl_wrap.c"/>
+            <F N="java/src/java/org/oescript/java/swig/oescriptimpl.java"/>
+            <F N="python/pythonlib/oescriptimpl.py"/>
+            <F N="go/golib/oescriptimpl_gc.c"/>
+            <F N="java/src/java/org/oescript/java/swig/oescriptimplJNI.java"/>
+            <F N="java/src/java/org/oescript/java/swig/OesDataObject.java"/>
+            <F N="java/src/java/org/oescript/java/swig/OesDataObjectList.java"/>
+            <F N="java/src/java/org/oescript/java/swig/OesDispatcher.java"/>
+            <F N="java/src/java/org/oescript/java/swig/OesIterator.java"/>
+            <F N="java/src/java/org/oescript/java/swig/OesKernel.java"/>
+            <F N="java/src/java/org/oescript/java/swig/OesLease.java"/>
+            <F N="java/src/java/org/oescript/java/swig/OesListIterator.java"/>
+            <F N="java/src/java/org/oescript/java/swig/OesLoginModule.java"/>
+            <F N="java/src/java/org/oescript/java/swig/OesNet.java"/>
+            <F N="java/src/java/org/oescript/java/swig/OesServer.java"/>
+            <F N="java/src/java/org/oescript/java/swig/OesSigHandler.java"/>
+            <F N="java/src/java/org/oescript/java/swig/OesStore.java"/>
+            <F N="java/src/java/org/oescript/java/swig/OesThreadDispatcher.java"/>
+            <F N="java/src/java/org/oescript/java/swig/OesTxn.java"/>
+            <F N="python/pythonmod/setup.py"/>
+            <F N="python/pythonlib/test/test_api.py"/>
+            <F N="python/pythonlib/test/test_api_getmany.py"/>
+            <F N="python/pythonlib/test/test_api_serialize.py"/>
+            <F N="java/test/test_swig_api.java"/>
+            <F N="python/pythonlib/test/test_swig_api.py"/>
+        </Folder>
+        <Folder
+            Name="Header Files"
+            Filters="*.h;*.H;*.hh;*.hpp;*.hxx;*.inc;*.sh;*.cpy;*.if">
+            <F N="php/php_oescriptimpl.h"/>
+        </Folder>
+        <Folder
+            Name="Resource Files"
+            Filters="*.ico;*.cur;*.dlg"/>
+        <Folder
+            Name="Bitmaps"
+            Filters="*.bmp"/>
+        <Folder
+            Name="Other Files"
+            Filters="">
+            <F N="perl/perlmod/t/00-load.t"/>
+            <F N="perl/perlmod/t/10-load.t"/>
+            <F N="perl/perlmod/Build.PL.in"/>
+            <F N="R/rmod/DESCRIPTION.in"/>
+            <F
+                N="Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="clisp/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="clisp/test/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="go/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="go/golib/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="go/golib/test/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="go/gomod/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="guile/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="guile/test/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="java/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="java/test/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="lua/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="lua/lualib/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="lua/lualib/test/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="lua/luamod/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="perl/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="perl/perllib/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="perl/perlmod/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="php/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="php/test/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="python/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="python/pythonlib/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="python/pythonlib/test/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="python/pythonmod/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="R/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="R/rlib/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="R/rlib/test/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="R/rmod/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="ruby/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="ruby/test/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="tcl/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="tcl/test/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="clisp/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="clisp/test/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="go/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="go/golib/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="go/golib/test/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="go/gomod/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="guile/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="guile/test/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="java/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="java/test/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="lua/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="lua/lualib/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="lua/lualib/test/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="lua/luamod/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="perl/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="perl/perllib/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="perl/perlmod/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="php/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="php/test/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="python/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="python/pythonlib/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="python/pythonlib/test/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="python/pythonmod/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="R/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="R/rlib/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="R/rlib/test/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="R/rmod/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="ruby/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="ruby/test/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="tcl/Makefile.in"
+                Type="Makefile"/>
+            <F
+                N="tcl/test/Makefile.in"
+                Type="Makefile"/>
+            <F N="perl/perlmod/t/manifest.t"/>
+            <F N="perl/perlmod/OeLinkBin.PL.in"/>
+            <F N="OeScript.i"/>
+            <F N="lua/luamod/src/oescript.lua"/>
+            <F N="perl/perlmod/lib/oescript.pm.in"/>
+            <F N="R/rmod/oescript.R"/>
+            <F N="ruby/mod/lib/oescript.rb"/>
+            <F N="go/golib/oescriptimpl.go"/>
+            <F N="php/oescriptimpl.php"/>
+            <F N="perl/perllib/oescriptimpl.pm"/>
+            <F N="perl/perlmod/oescriptimpl.pod.in"/>
+            <F N="R/rlib/oescriptimpl.R"/>
+            <F N="perl/perlmod/t/pod-coverage.t"/>
+            <F N="perl/perlmod/t/pod.t"/>
+            <F N="java/test/script_runner.in"/>
+            <F N="python/pythonmod/setup.py.in"/>
+            <F N="go/golib/test/test_api.go"/>
+            <F N="lua/lualib/test/test_api.lua"/>
+            <F N="R/rlib/test/test_api.R"/>
+            <F N="ruby/test/test_api.rb"/>
+            <F N="perl/perlmod/t/test_api.t"/>
+            <F N="perl/perlmod/t/test_api_getmany.t"/>
+            <F N="perl/perlmod/t/test_api_storable.t"/>
+            <F N="lua/lualib/test/test_kernel.lua"/>
+            <F N="lua/lualib/test/test_kernel2.lua"/>
+            <F N="perl/perlmod/t/test_net_api_oejcl.t"/>
+            <F N="perl/perlmod/t/test_net_api_oejson.t"/>
+            <F N="lua/lualib/test/test_net_jcl_api.lua"/>
+            <F N="lua/lualib/test/test_net_jcl_multiple_extents.lua"/>
+            <F N="lua/lualib/test/test_net_jcl_multiple_extents2.lua"/>
+            <F N="lua/lualib/test/test_net_jcl_rollback_api.lua"/>
+            <F N="lua/lualib/test/test_net_json_api.lua"/>
+            <F N="lua/lualib/test/test_net_json_api_ssl.lua"/>
+            <F N="lua/lualib/test/test_swig_api.lua"/>
+            <F N="php/test/test_swig_api.php"/>
+            <F N="ruby/test/test_swig_api.rb"/>
+            <F N="guile/test/test_swig_api.scm"/>
+            <F N="perl/perlmod/t/test_swig_api.t"/>
+        </Folder>
+    </Files>
+</Project>

@@ -1,0 +1,26 @@
+() are params
+[] are lists and maps
+{} are blocks
+$ are vars
+
+keywords: 
+	  write, read,   take, 
+	  start, commit, cancel, failure 
+	  dur,   lid,    tid,     cid,
+	  do,    return
+
+$item1 = ["one", "two", "three"]
+$item2 = ["key1":"one", "key2":"two", "key3":"three"]
+$item.attatchment = "xxxxxxxxx"
+$titem1 = ["one", "_", "_"]
+$titem2 = {"key1":"one"}
+
+$scalar1 = $item1[2]
+scalar1 == "three"
+$scalar2 = $item2{"key1"}
+scalar2 == "one"
+
+$lid = write(dur=n, tid=n, $item1)
+
+$ritem = read|take(dur=n, tid=n, $titem1)
+

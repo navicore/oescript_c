@@ -1,0 +1,68 @@
+9/14/2009 milestone 0.3
+
+id	    type		    component	            summary
+
+#1  	defect          commons  	            test ticket
+#8 		defect 	        commons 	            refactor _ static
+#9 		defect 	        commons 	            replace function args with typdefs
+#24 	defect 	        commons 	            error processing / rc dictionary
+#45 	defect 	        commons 	            standardize on lists
+#84 	defect 	        commons 	            fix precidence confusision about &(_this_->thing)
+#95 	defect 	        commons 	            Arena mem is not thread safe
+#103 	defect 	        commons 	            unsigned char *
+#113 	defect 	        commons 	            gnulib
+#4 		defect 	        dispatcher 	            dispatcher timed exec fails on x61
+#93 	defect 	        dispatcher 	            move TRY to Dispatchers
+#94 	defect 	        dispatcher 	            move TRY to Dispatchers
+#107 	defect 	        dispatcher 	            test_timer_d 100% cpu on snow leopard
+#3 		defect 	        kernel 		            seg fault kernel unit test
+#34 	defect 	        kernel 		            get rid of MAX_KEYS limitaion
+#37 	defect 	        kernel 		            TRY CATCH bug in OEK_put / OEBDB_put
+#91 	defect 	        kernel 		            stop using res nd cmd outside of msg
+#97 	defect 	        kernel 		            get rid of useless memcpy
+#114 	defect 	        kernel 		            in / out for protocol
+#88 	defect 	        net 		            OeNet libevent wrapper
+#2 		defect 	        oescript 	            test oescript ticket
+#27 	defect 	        oescript 	            osx can't load lua from oescript
+#76 	defect 	        oescript 	            readline support breaks builds where there
+				        			            is no readline
+#19 	defect 	        protocol 	            escape whitespace in atrs
+#44 	defect 	        protocol 	            client net disconnect handling
+#78 	defect 	        protocol 	            remove "rollback on disconnect" option
+#111 	defect 	        protocol 	            get rid of byte fields from OEK_Context
+#33 	defect 	        scripting 	            delete eval support
+#38 	defect 	        scripting 	            lapi breaks exception handling
+#86 	defect 	        scripting 	            lua api should return an object for lease
+#87 	defect 	        scripting 	            lua api should return an object for lease
+#102 	defect 	        scripting 	            oescript_bin possible thread bug
+#35 	defect 	        server 		            check and handle mem alloc failures
+#90 	defect 	        server 		            server segfaults with test_async_sock_kernel.lua
+				        			            with no lease get
+#92 	defect 	        store 		            berkeley db reaper is broken
+                                                
+#39  	enhancement  	commons  	            configure options for debug
+#11 	enhancement 	console 	            oescript --persist option
+#42 	enhancement 	dispatcher 	            Dispatcher batch matcher
+#17 	enhancement 	kernel 		            get/take && || and |
+#105 	enhancement 	kernel 		            upt query
+#108 	enhancement 	net 		            libevent rpc
+#6 		enhancement 	oescript 	            oescript should be able to remote
+#15 	enhancement 	oescript 	            lua socket client
+#28 	enhancement 	protocol 	            yaml
+#109 	enhancement 	protocol 	            AsyncServer
+#110 	enhancement 	protocol 	            AsyncClient
+#52 	enhancement 	scripting 	            lua api
+#85 	enhancement 	scripting 	            lua api should enlist futures in
+									            transactions
+#96 	enhancement 	scripting 	            lua api extensions
+#116 	enhancement 	server 		            signal for shutdown
+#117 	enhancement 	server 		            signals mgr
+                                                
+#112  	task  	        commons  	            autoconf macros
+#25 	task 	        qa 	                    qa with solaris 10
+#82 	task 	        qa 	                    start qa'ing on netbsd i386
+#115 	task 	        www, doc, and examples 	license
+
+generated from:
+https://code.onextent.com/projects/oescript/query?status=closed&group=type&order=component&col=id&col=type&col=component&col=summary&milestone=0.3
+

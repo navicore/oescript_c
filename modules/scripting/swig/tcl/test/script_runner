@@ -1,0 +1,10 @@
+#!/bin/sh
+
+export DYLD_LIBRARY_PATH=../.libs:.:$DYLD_LIBRARY_PATH
+
+tclsh ./test_swig_api.tcl
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+
+tclsh ./test_api.tcl
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+

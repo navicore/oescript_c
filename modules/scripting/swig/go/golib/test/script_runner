@@ -1,0 +1,5 @@
+#!/bin/sh
+
+#R --no-save < test_api.R
+#if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+

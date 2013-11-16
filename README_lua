@@ -1,0 +1,23 @@
+For now, to use oescript from your own lua installation,
+
+(1)
+   configure --with-luadir=/your/lua/install/basedir
+    ie:
+   configure -with-luadir=/usr
+
+(2)
+  do a symlink or copy of liboescript.so to your current dir or whereever your
+  lua installation will find it and name it oescript.so
+    ie:
+  ln -s /opt/onextent/oescript/lib/liboescript.so \
+  /usr/local/lib/lua/5.1/oescript.so
+
+(3)
+  copy oelapi_serialize.lua to wherever your lua installation will find it.
+    ie:
+  cp /opt/onextent/oescript/bin/oelapi_serialize.lua \
+  /usr/local/share/lua/5.1/oelapi_serialize.lua
+
+I plan to make a binary lua rock for several systems, windows,
+ubunutu, others, that will do all this automatically.
+

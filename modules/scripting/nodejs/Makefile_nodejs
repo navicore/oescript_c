@@ -1,0 +1,22 @@
+
+all: 
+	PYTHON=/usr/bin/python2 /opt/nodejs8/bin/node-waf configure && /opt/nodejs8/bin/npm install
+
+clean:
+	rm -rf test/data
+	rm -rf build
+	rm -f db_*.log
+
+check: all
+	mkdir -p test/data
+	/opt/nodejs8/bin/node test/test_server_parts.js
+	/opt/nodejs8/bin/node test/test_json.js
+	/opt/nodejs8/bin/node test/test.js
+	/opt/nodejs8/bin/node test/test_oescript_http.js
+
+install:
+	/opt/nodejs8/bin/npm install -g
+
+uninstall:
+	/opt/nodejs8/bin/npm uninstall oescript -g
+

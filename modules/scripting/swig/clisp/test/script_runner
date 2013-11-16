@@ -1,0 +1,5 @@
+#!/bin/sh
+
+guile ./test_swig_api.scm
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+

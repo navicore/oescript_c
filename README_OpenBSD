@@ -1,0 +1,7 @@
+try this:
+
+export EVENT_NOKQUEUE=1
+
+./configure CFLAGS=-I/usr/local/include/db47  LDFLAGS=-L/usr/local/lib
+
+./configure CFLAGS=-I/usr/local/include/db47  LDFLAGS=-L/usr/local/lib --with-db-lib=db-4.7 --with-db-header=db.h

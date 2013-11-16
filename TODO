@@ -1,0 +1,84 @@
+bugs!
+- Iterator_free is not always called, make arena support make sense
+
+txns
+- sub txns!
+- settings for txn cleanup
+  - keep rolled back txns dur setting
+  - keep committed txns dur setting
+  - allow rollback committed txns setting
+      fail the rollingback of a committed txn if
+      it can't be 100% reset setting (maybe a put
+      item has been 'take'en by someone after the
+      commit...
+
+android
+- mpio
+- ssl
+
+lang support
+X make a generalized yield/resume coroutine impl for lua and the dsl and others
+X coroutines:
+  - bring back lua w/coroutines
+  - perl coro
+  - python
+  - guile continuations
+o OeScript DSL (both a wire protocol and a service impl lang)
+  - prologee put vars referencing get results
+  - enclosed in txn
+  - custom result template to contain lease and txn ids from batches?
+  - cons car cdr
+  - program executes sequentially, if you want concurrent, send batches of sep progs
+  - coder notes:
+    - ADT
+    - arena
+    - move scratch stuff into OeScrMsgFactory (name?)
+    - the 'next' call should return a msg plus indicate the vars its exec should resolve.  the invokehandler should know how to pull the var data from the result and call a method on oescr to set the vars.  ugh!
+  - 
+
+networking
+X messagepack!?
+- ssl
+- http
+- seda throttle in dispatcher.  blocking always deadlocks us so maybe the only
+  throttle is in the readable from the nio but all stages can feed decision in
+  the signalhandler? reasearch, what do others do??
+- seda throttle in tdispatcher
+- redhat queuing??
+
+misc
+- get rid of oe_scalar
+- oepam loginmodule
+  - conversation function (sync initially, don't go to client)
+  - conversation function (is async possible??, we can't block for @#$!ing pam but
+  we can fail a connection request with the prompt from pam to drive the user in
+  the next try)
+- 'pam module' to send msg specs to 'oepam module'
+- read/take by lease id
+- put with no attrs
+- refactor OEK so there is just put/get/sta/upl/upt call?
+- persist timer dispatcher
+- replace all strcmp with strncmp
+- replace all strcpy with strncpy
+- fix all gcc warnings
+- what happens when you commit a txn and some of the enlisted items have expired?
+
+extents
+- the netspec string must have extentname on end after port
+- multiple extents in one server? w/ txn coordination?
+- dynamic extent creation on connection
+- dynamic extent lease
+
+oecloud
+- distributed store
+- use wrappers with directories and oetxns to do async stuff on behalf
+  of users async and only commit the first found item the cluster
+  presents
+
+Metasaurus
+- load metasaurus materials raw with type and id map keys
+- process records to create index record maps pointing to lease of orig (need use cases for queries)... possibly process write and take with exits or a service waiting for next sequential ID (but that wouldn't be a lease)
+  ...or...
+- take the write lease id and put it in a field for immedieate successive idx writes,
+and when you edit it, use the lease id to remove and replace idx entries
+

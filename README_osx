@@ -1,0 +1,16 @@
+try this:
+
+export EVENT_NOKQUEUE=1
+
+export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home
+
+use macports to install:
+    - libevent1
+    - db47
+
+./configure CFLAGS="$CFLAGS -I/opt/local/include/db47" LDFLAGS="-L/opt/local/lib/db47" --with-db-lib=db-4.7 --with-db-header=db.h --with-perl --with-nopam
+
+and append as needed to the configure command:
+
+--with-java --with-perl --with-lua --with-python --with-guile --with-ruby --with-php --with-R --with-go --with-clisp
+

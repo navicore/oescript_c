@@ -1,0 +1,35 @@
+#!/bin/sh
+
+lua ./test_jsonkernel.lua
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+
+lua ./test_kernel.lua
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+
+lua ./test_kernel2.lua
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+
+lua ./test_api.lua
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+
+lua ./test_swig_api.lua
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+
+lua ./test_net_json_api.lua
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+
+lua ./test_net_json_api_ssl.lua
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+
+lua ./test_net_jcl_api.lua
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+
+lua ./test_net_jcl_rollback_api.lua
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+
+lua ./test_net_jcl_multiple_extents.lua
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+
+lua ./test_net_jcl_multiple_extents2.lua
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+

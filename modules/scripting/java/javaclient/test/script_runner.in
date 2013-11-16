@@ -1,0 +1,14 @@
+#!/bin/sh
+
+LD_LIBRARY_PATH=.:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH
+
+@JAVA@ -classpath ./oejava.jar:. -ea:test_msgs test_msgs
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+
+@JAVA@ -classpath ./oejavaimpl.jar:./oejava.jar:. -ea:test_json_server test_json_server
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+
+@JAVA@ -classpath ./oejavaimpl.jar:./oejava.jar:. -ea:test_lazy_connect test_lazy_connect
+if [ $? -ne 0 ]; then echo "$0 failed"; exit 1; fi
+

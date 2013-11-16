@@ -1,0 +1,4 @@
+SUBDIRS = @OE_STORE_APIS@
+
+include_HEADERS =
+

@@ -1,0 +1,6 @@
+A conceptual design is like "shopping cart"
+
+What to do if space-based-computing doesn't lend itself to something easy like
+a Desk top or shopping cart?  A conceptual design is still needed.  It already
+exists and has been guiding us but now needs to be expressed clearly.
+

@@ -1,0 +1,16 @@
+settings:
+
+todo: need a max attr size
+todo: need a max bytes size
+todo: need a max nattr size
+todo: need a max lease dur
+todo: need a max txn lease dur
+todo: need a max txn enlist size
+
+doc attrs for each component
+
+doc lua
+doc perl
+doc python
+doc java
+

@@ -1,0 +1,3 @@
+note, the native ifc node-waf util used by the module
+are not supported in current node.  use node 0.8.x
+

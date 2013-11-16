@@ -1,0 +1,12 @@
+Package: oescript
+Type: Package
+Title: The R API for OeScript
+Version: @VERSION@
+Date: 2011-03-09
+Author: Who wrote it
+Maintainer: OnExtent LLC <info@onextent.com>
+Description: OeScript enables programmers to embed tuple spaces and map spaces into their applications.
+License: Apache 2.0
+LazyLoad: yes
+Depends: methods
+

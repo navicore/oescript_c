@@ -1,0 +1,19 @@
+use strict;
+use warnings;
+use Module::Build;
+
+my $builder = Module::Build->new(
+    module_name         => 'oescript',
+    dist_version        => '@VERSION@',
+    license             => 'apache',
+    dist_author         => q{OnExtent, LLC <info@onextent.com>},
+    PL_files => { 'OeLinkBin.PL' => 'blib/arch/oescriptimpl.so' },
+    build_requires => {
+        'Test::More' => 0,
+    },
+    add_to_cleanup      => [ 'oescriptimpl-*', 'oescript-*' ],
+    create_makefile_pl => 'traditional',
+);
+
+$builder->create_build_script();
+

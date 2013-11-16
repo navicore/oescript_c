@@ -1,0 +1,10 @@
+#try:
+
+bash
+export EVENT_NOEVPORT=1
+
+#make sure the runtime linker can find wherever you put libevent
+sudo crle -u -l/usr/local/lib
+
+./configure CFLAGS="-I/usr/local/BerkeleyDB.4.7/include -I/usr/local/include" LDFLAGS="-L/usr/local/BerkeleyDB.4.7/lib -L/usr/local/lib" --with-db-header=db.h --with-db-lib=db-4.7 --with-event-lib=event --with-event-header=event.h
+

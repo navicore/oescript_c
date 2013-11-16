@@ -1,0 +1,172 @@
+/* learning, i'm sure i'm not using a lot of automatic stuff here */
+
+options {
+    STATIC = false ;
+}
+
+
+PARSER_BEGIN(Jcl)
+    import java.io.*;
+    class Jcl {
+      //double previousValue = 0.0;
+    }
+PARSER_END(Jcl)
+
+
+SKIP : { " " }
+TOKEN : { < EOL : "\n"|"\r"|"\r\n" > }
+TOKEN : { < OPEN_PARAN : "(" > }
+TOKEN : { < CLOSE_PARAN : ")" > }
+TOKEN : { < OPEN_BRACKET : "[" > }
+TOKEN : { < CLOSE_BRACKET : "]" > }
+TOKEN : { < OPEN_BRACE : "{" > }
+TOKEN : { < CLOSE_BRACE : "}" > }
+TOKEN : { < PAIR_SEP : ":" > }
+TOKEN : { < END_STMT : ";" > }
+TOKEN : { < CONCAT : "+" > }
+TOKEN : { < ASSIGN : "=" > }
+TOKEN : { < DOT : "." > }
+
+TOKEN : { < CONS : "cons" > }
+TOKEN : { < CAR : "car" > }
+TOKEN : { < CDR : "cdr" > }
+
+TOKEN : { < DIS : "dis" > }
+TOKEN : { < CONNECT : "connect" > }
+
+TOKEN : { < WRITE : "write" > }
+TOKEN : { < READ : "read" > }
+TOKEN : { < TAKE : "take" > }
+TOKEN : { < COMMIT : "commit" > }
+TOKEN : { < CANCEL : "cancel" > }
+TOKEN : { < RESPONSE : "response" > }
+TOKEN : { < ERROR : "error" > }
+
+TOKEN : { < EXTENTNAME : "extentname" > }
+TOKEN : { < MSG : "msg" > }
+TOKEN : { < CMD : "cmd" > }
+TOKEN : { < TXN : "txn" > }
+TOKEN : { < USERNAME : "username" > }
+TOKEN : { < PASSWORD : "password" > }
+TOKEN : { < DURATION : "dur" > }
+TOKEN : { < TIMEOUT : "timeout" > }
+TOKEN : { < CID : "cid" > }
+TOKEN : { < TXN_ID : "tid" > }
+TOKEN : { < LEASE_ID : "lid" > }
+TOKEN : { < SESSION_ID : "sid" > }
+TOKEN : { < NRESULTS : "nresults" > }
+TOKEN : { < NENLISTED : "enlisted" > }
+
+TOKEN : { < NUMBER : <DIGITS> | <DIGITS> "." <DIGITS> | <DIGITS> "." | "." <DIGITS> > }
+TOKEN : { < #DIGITS : (["0"-"9"])+ > }
+TOKEN : { < NAME : (["a"-"z","A"-"Z","_","$"])(["a"-"z","A"-"Z","0"-"9","_","$"])* > }
+TOKEN : { < STRING : "\"" (~["\""])+ "\"" > }
+
+/*
+
+double Start(PrintStream ps) throws NumberFormatException :
+{}
+{
+    (
+        previousValue = Expression()
+        <EOL>
+        { ps.println( previousValue ) ; 
+          return previousValue;
+        }
+    )*
+    <EOF>
+}
+
+double Expression() throws NumberFormatException :
+{
+    double i;
+    double value;
+}
+{
+    value = Term()
+    (
+        <PLUS>
+        i = Term()
+        { value += i ; }
+    |
+        <MINUS>
+        i = Term()
+        { value -= i ; }
+    )*
+    { return value; }
+}
+
+double Term() throws NumberFormatException :
+{
+    double i;
+    double value;
+}
+{
+    value = Primary()
+    (
+        <TIMES>
+        i = Primary()
+        { value *= i ; }
+    |
+        <DIVIDE>
+        i = Primary()
+        { value /= i ; }
+    )*
+    { return value; }
+}
+
+double Primary() throws NumberFormatException :
+{
+    Token t ;
+    double d ;
+}
+{
+    t = <NUMBER>
+    { return Double.parseDouble( t.image ) ; }
+|
+    <PREVIOUS>
+    { return previousValue ; }
+|
+    <OPEN_PAR> d=Expression() <CLOSE_PAR>
+    { return d ; }
+|
+    <MINUS> d=Primary()
+    { return -d ; }
+}
+*/
+
+//<DIS> | <CONNECT> | <WRITE> | <READ> | <TAKE> | <COMMIT> | <CANCEL> | <RESPONSE> | <ERROR> > }
+Token CmdName() :
+{
+    Token t ;
+}
+{ 
+    t = <DIS>
+    { return t ; }
+|
+    t = <CONNECT>
+    { return t ; }
+|
+    t = <WRITE>
+    { return t ; }
+|
+    t = <READ>
+    { return t ; }
+|
+    t = <TAKE>
+    { return t ; }
+|
+    t = <COMMIT>
+    { return t ; }
+|
+    t = <CANCEL>
+    { return t ; }
+|
+    t = <RESPONSE>
+    { return t ; }
+|
+    t = <ERROR>
+    { return t ; }
+}
+
+

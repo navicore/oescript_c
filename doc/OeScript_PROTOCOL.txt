@@ -1,0 +1,44 @@
+What is?
+
+---
+Message
+
+Command
+
+Response
+
+Error
+
+---
+Connection Command
+
+Connection Response
+
+Disconnect Command
+
+Put Command
+
+Put Response
+
+Get Command
+
+Get Response
+
+Start Txn Command
+
+Start Txn Response
+
+Update Txn Command
+
+Update Txn Response
+
+Update Lease Command
+
+Update Lease Response
+
+---
+Diagrams (flow, state, etc...)
+
+---
+Implementations:
+

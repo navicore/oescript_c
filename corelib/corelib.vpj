@@ -1,0 +1,445 @@
+<!DOCTYPE Project SYSTEM "http://www.slickedit.com/dtd/vse/10.0/vpj.dtd">
+<Project
+    Version="10.0"
+    VendorName="SlickEdit"
+    WorkingDir=".">
+    <Config
+        Name="Debug"
+        Type="cpp"
+        DebugCallbackName="gdb"
+        OutputFile="%bdcorelib"
+        CompilerConfigName="Latest Version">
+        <Menu>
+            <Target
+                Name="Compile"
+                MenuCaption="&amp;Compile"
+                CaptureOutputWith="ProcessBuffer"
+                OutputExts="*.o"
+                SaveOption="SaveCurrent"
+                RunFromDir="%rw">
+                <Exec CmdLine='cc -c -g %i %defd -o "%bd%n.o" "%f"'/>
+            </Target>
+            <Target
+                Name="Link"
+                MenuCaption="&amp;Link">
+                <Exec CmdLine='cc -g -o "%o" %f %libs'/>
+            </Target>
+            <Target
+                Name="Build"
+                MenuCaption="&amp;Build"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%(VSLICKBIN1)vsbuild" build "%w" "%r"'/>
+            </Target>
+            <Target
+                Name="Rebuild"
+                MenuCaption="&amp;Rebuild"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%(VSLICKBIN1)vsbuild" rebuild "%w" "%r"'/>
+            </Target>
+            <Target
+                Name="Debug"
+                MenuCaption="&amp;Debug"
+                SaveOption="SaveNone"
+                BuildFirst="1"
+                CaptureOutputWith="ProcessBuffer"
+                RunFromDir="%rw">
+                <Exec CmdLine='vsdebugio -prog "%o"'/>
+            </Target>
+            <Target
+                Name="Execute"
+                MenuCaption="E&amp;xecute"
+                SaveOption="SaveNone"
+                BuildFirst="1"
+                CaptureOutputWith="ProcessBuffer"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%o"'/>
+            </Target>
+        </Menu>
+    </Config>
+    <Config
+        Name="Release"
+        Type="cpp"
+        DebugCallbackName="gdb"
+        OutputFile="%bdcorelib"
+        CompilerConfigName="Latest Version">
+        <Menu>
+            <Target
+                Name="Compile"
+                MenuCaption="&amp;Compile"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveCurrent"
+                OutputExts="*.o"
+                RunFromDir="%rw">
+                <Exec CmdLine='cc -c -O %i %defd -o "%bd%n.o" "%f"'/>
+            </Target>
+            <Target
+                Name="Link"
+                MenuCaption="&amp;Link">
+                <Exec CmdLine='cc -O -o "%o" %f %libs'/>
+            </Target>
+            <Target
+                Name="Build"
+                MenuCaption="&amp;Build"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%(VSLICKBIN1)vsbuild" build "%w" "%r"'/>
+            </Target>
+            <Target
+                Name="Rebuild"
+                MenuCaption="&amp;Rebuild"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%(VSLICKBIN1)vsbuild" rebuild "%w" "%r"'/>
+            </Target>
+            <Target
+                Name="Debug"
+                MenuCaption="&amp;Debug"
+                SaveOption="SaveNone"
+                BuildFirst="1"
+                CaptureOutputWith="ProcessBuffer"
+                RunFromDir="%rw">
+                <Exec CmdLine='vsdebugio -prog "%o"'/>
+            </Target>
+            <Target
+                Name="Execute"
+                MenuCaption="E&amp;xecute"
+                SaveOption="SaveNone"
+                BuildFirst="1"
+                CaptureOutputWith="ProcessBuffer"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%o"'/>
+            </Target>
+        </Menu>
+    </Config>
+    <Rules Name="Compile">
+        <Rule
+            InputExts="*.s"
+            OutputExts="*.o"
+            LinkObject="1">
+            <Exec CmdLine='as -o "%bd%n.o" "%f"'/>
+        </Rule>
+    </Rules>
+    <Files>
+        <Folder
+            Name="Source Files"
+            Filters="*.c;*.C;*.cc;*.cpp;*.cp;*.cxx;*.c++;*.prg;*.pas;*.dpr;*.asm;*.s;*.bas;*.java;*.cs;*.sc;*.e;*.cob;*.html;*.rc;*.tcl;*.py;*.pl;*.d">
+            <F N="arena.c"/>
+            <F N="arenatable.c"/>
+            <F N="arith.c"/>
+            <F N="ArrayIterator.c"/>
+            <F N="BaseLoginModule.c"/>
+            <F N="BuiltInLoginModule.c"/>
+            <F N="cJSON.c"/>
+            <F N="ConCmd.c"/>
+            <F N="ConRes.c"/>
+            <F N="DataObject.c"/>
+            <F N="DataObjectList.c"/>
+            <F N="DisCmd.c"/>
+            <F N="except.c"/>
+            <F N="GetCmd.c"/>
+            <F N="GetRes.c"/>
+            <F N="Iterator.c"/>
+            <F N="json_msg_factory.c"/>
+            <F N="JsonKernel.c"/>
+            <F N="JsonNet.c"/>
+            <F N="list.c"/>
+            <F N="LoginModule.c"/>
+            <F N="mem.c"/>
+            <F N="modp_b64.c"/>
+            <F N="modp_b64_gen.c"/>
+            <F N="oe_prettyprint.c"/>
+            <F N="Oe_Thread_Dispatcher.c"/>
+            <F N="OeBdb.c"/>
+            <F N="Oec_AList.c"/>
+            <F N="oec_arith.c"/>
+            <F N="Oec_CountdownLatch.c"/>
+            <F N="oec_file.c"/>
+            <F N="Oec_Future.c"/>
+            <F N="Oec_IdSet.c"/>
+            <F N="oec_values.c"/>
+            <F N="Oed_Dispatcher.c"/>
+            <F N="oed_dispatcher_common.c"/>
+            <F N="oejcl_parser.c"/>
+            <F N="OeJclDecoder.c"/>
+            <F N="OeJclEncoder.c"/>
+            <F N="OeJclNet.c"/>
+            <F N="OEK.c"/>
+            <F N="OEK_get.c"/>
+            <F N="OEK_impl.c"/>
+            <F N="OEK_put.c"/>
+            <F N="OEK_sta.c"/>
+            <F N="OEK_upl.c"/>
+            <F N="OEK_upt.c"/>
+            <F N="OekErr.c"/>
+            <F N="OekMsg.c"/>
+            <F N="OekMsgTemplateMatcher.c"/>
+            <F N="OeLibevent2Factory.c"/>
+            <F N="OeLibeventConnFactory.c"/>
+            <F N="OeNet.c"/>
+            <F N="OeNetConn.c"/>
+            <F N="OeNetDefaultFactory.c"/>
+            <F N="oep_utils.c"/>
+            <F N="OepClient.c"/>
+            <F N="OepFactory.c"/>
+            <F N="OepServer.c"/>
+            <F N="OeSession.c"/>
+            <F N="OesKernel_impl.c"/>
+            <F N="OeSockClient.c"/>
+            <F N="OeStore.c"/>
+            <F N="OeStoreDefaultFactory.c"/>
+            <F N="OeStoreHolder.c"/>
+            <F N="OeStoreQuery.c"/>
+            <F N="PamLoginModule.c"/>
+            <F N="Privilege.c"/>
+            <F N="PutCmd.c"/>
+            <F N="PutRes.c"/>
+            <F N="SecurityContext.c"/>
+            <F N="set.c"/>
+            <F N="SignalHandler.c"/>
+            <F N="SKeyTable.c"/>
+            <F N="test/sn_handler.c"/>
+            <F N="StaCmd.c"/>
+            <F N="StaRes.c"/>
+            <F N="Subject.c"/>
+            <F N="table.c"/>
+            <F N="test/protocol/test_async_client.c"/>
+            <F N="test/jcl/test_batch.c"/>
+            <F N="test/store/bdb/test_db.c"/>
+            <F N="test/store/bdb/test_db_lease.c"/>
+            <F N="test/store/bdb/test_db_threads.c"/>
+            <F N="test/store/bdb/test_db_tuple.c"/>
+            <F N="test/store/bdb/test_db_txn.c"/>
+            <F N="test/jcl/test_decoder.c"/>
+            <F N="test/jcl/test_encoder.c"/>
+            <F N="test/test_except.c"/>
+            <F N="test/test_group_dispatcher.c"/>
+            <F N="test/store/bdb/test_holder_marshall.c"/>
+            <F N="test/protocol/jcl/test_jcl_server.c"/>
+            <F N="test/test_json_deserialize.c"/>
+            <F N="test/test_json_kernel.c"/>
+            <F N="test/test_json_serialize.c"/>
+            <F N="test/protocol/json/test_json_server.c"/>
+            <F N="test/test_kernel.c"/>
+            <F N="test/test_libevent.c"/>
+            <F N="test/net/libevent/test_net.c"/>
+            <F N="test/net/libevent/test_net_ssl.c"/>
+            <F N="test/test_nothreads_dispatcher.c"/>
+            <F N="test/test_oec_values.c"/>
+            <F N="test/test_oecommon.c"/>
+            <F N="test/jcl/test_oejcl.c"/>
+            <F N="test/test_oek_msg.c"/>
+            <F N="test/security/pam/test_pam.c"/>
+            <F N="test/security/pam/test_pam_module.c"/>
+            <F N="test/protocol/jcl/test_run_jcl_server.c"/>
+            <F N="test/protocol/json/test_run_json_server.c"/>
+            <F N="test/security/test_security_api.c"/>
+            <F N="test/test_sighandler.c"/>
+            <F N="test/store/sqlite3/test_sqlite.c"/>
+            <F N="test/test_store_holder.c"/>
+            <F N="test/test_thread_dispatcher.c"/>
+            <F N="test/test_timer_dispatcher.c"/>
+            <F N="UplCmd.c"/>
+            <F N="UplRes.c"/>
+            <F N="UptCmd.c"/>
+            <F N="UptRes.c"/>
+        </Folder>
+        <Folder
+            Name="Header Files"
+            Filters="*.h;*.H;*.hh;*.hpp;*.hxx;*.inc;*.sh;*.cpy;*.if">
+            <F N="arena.h"/>
+            <F N="arenatable.h"/>
+            <F N="arith.h"/>
+            <F N="ArrayIterator.h"/>
+            <F N="arraytoc.h"/>
+            <F N="BaseLoginModule.h"/>
+            <F N="BuiltInLoginModule.h"/>
+            <F N="cJSON.h"/>
+            <F N="ConCmd.h"/>
+            <F N="ConRes.h"/>
+            <F N="DataObject.h"/>
+            <F N="DataObjectList.h"/>
+            <F N="DisCmd.h"/>
+            <F N="except.h"/>
+            <F N="GetCmd.h"/>
+            <F N="GetRes.h"/>
+            <F N="Iterator.h"/>
+            <F N="json_msg_factory.h"/>
+            <F N="JsonKernel.h"/>
+            <F N="JsonNet.h"/>
+            <F N="JsonNet_resources.h"/>
+            <F N="JsonNet_resources_en_US.h"/>
+            <F N="list.h"/>
+            <F N="LoginModule.h"/>
+            <F N="mem.h"/>
+            <F N="modp_b64.h"/>
+            <F N="modp_b64_data.h"/>
+            <F N="modp_stdint.h"/>
+            <F N="oe_common.h"/>
+            <F N="Oe_Thread_Dispatcher.h"/>
+            <F N="OeBdb.h"/>
+            <F N="OeBdb_resources.h"/>
+            <F N="OeBdb_resources_en_US.h"/>
+            <F N="Oec_AList.h"/>
+            <F N="oec_assert.h"/>
+            <F N="Oec_CountdownLatch.h"/>
+            <F N="oec_file.h"/>
+            <F N="Oec_Future.h"/>
+            <F N="Oec_IdSet.h"/>
+            <F N="oec_log.h"/>
+            <F N="oec_threads.h"/>
+            <F N="oec_values.h"/>
+            <F N="Oed_Dispatcher.h"/>
+            <F N="oed_dispatcher_common.h"/>
+            <F N="oejcl_parser.h"/>
+            <F N="OeJclDecoder.h"/>
+            <F N="OeJclEncoder.h"/>
+            <F N="OeJclNet.h"/>
+            <F N="OEK.h"/>
+            <F N="OEK_default_factory.h"/>
+            <F N="OEK_impl.h"/>
+            <F N="OekErr.h"/>
+            <F N="OEKI.h"/>
+            <F N="OekMsg.h"/>
+            <F N="OekMsgTemplateMatcher.h"/>
+            <F N="OeLibevent2Factory.h"/>
+            <F N="OeLibeventConnFactory.h"/>
+            <F N="OeNet.h"/>
+            <F N="OeNetConn.h"/>
+            <F N="OeNetDefaultFactory.h"/>
+            <F N="oep_resources.h"/>
+            <F N="oep_resources_en_US.h"/>
+            <F N="oep_utils.h"/>
+            <F N="OepClient.h"/>
+            <F N="OepFactory.h"/>
+            <F N="OepServer.h"/>
+            <F N="Oes_resources.h"/>
+            <F N="Oes_resources_en_US.h"/>
+            <F N="OeScript.h"/>
+            <F N="oescript_core.h"/>
+            <F N="oescript_core_resources.h"/>
+            <F N="oescript_core_resources_en_US.h"/>
+            <F N="oescript_util.h"/>
+            <F N="OeSession.h"/>
+            <F N="OeSockClient.h"/>
+            <F N="OeStore.h"/>
+            <F N="OeStoreDefaultFactory.h"/>
+            <F N="OeStoreHolder.h"/>
+            <F N="OeStoreQuery.h"/>
+            <F N="PamLoginModule.h"/>
+            <F N="Privilege.h"/>
+            <F N="PutCmd.h"/>
+            <F N="PutRes.h"/>
+            <F N="test/jcl/nonreentrant/runme.h"/>
+            <F N="test/jcl/reentrant/runme.h"/>
+            <F N="SecurityContext.h"/>
+            <F N="set.h"/>
+            <F N="SignalHandler.h"/>
+            <F N="SKeyTable.h"/>
+            <F N="test/sn_handler.h"/>
+            <F N="StaCmd.h"/>
+            <F N="StaRes.h"/>
+            <F N="Subject.h"/>
+            <F N="table.h"/>
+            <F N="UplCmd.h"/>
+            <F N="UplRes.h"/>
+            <F N="UptCmd.h"/>
+            <F N="UptRes.h"/>
+        </Folder>
+        <Folder
+            Name="Resource Files"
+            Filters="*.ico;*.cur;*.dlg"/>
+        <Folder
+            Name="Bitmaps"
+            Filters="*.bmp"/>
+        <Folder
+            Name="Other Files"
+            Filters="">
+            <F N="../m4/ax_compare_version.m4"/>
+            <F N="../m4/ax_oe_go.m4"/>
+            <F N="../m4/ax_oe_guile_devel.m4"/>
+            <F N="../m4/ax_oe_php_devel.m4"/>
+            <F N="../m4/ax_oe_R.m4"/>
+            <F N="../m4/ax_oejava.m4"/>
+            <F N="../m4/ax_perl_ext_flags.m4"/>
+            <F N="../m4/ax_pkg_swig.m4"/>
+            <F N="../m4/ax_prog_ruby_version.m4"/>
+            <F N="../m4/ax_python_devel.m4"/>
+            <F N="../m4/ax_ruby_devel.m4"/>
+            <F N="../m4/ax_with_prog.m4"/>
+            <F N="../m4/ax_with_ruby.m4"/>
+            <F N="../m4/berkeley_db.m4"/>
+            <F N="cii_FILES.txt"/>
+            <F N="cii_LICENSE.txt"/>
+            <F N="../m4/clisp.m4"/>
+            <F N="../configure.ac"/>
+            <F N="corelib.vpj"/>
+            <F N="../m4/libtool.m4"/>
+            <F N="../m4/libyaml.m4"/>
+            <F N="../m4/ltoptions.m4"/>
+            <F N="../m4/ltsugar.m4"/>
+            <F N="../m4/ltversion.m4"/>
+            <F N="../m4/lt~obsolete.m4"/>
+            <F N="../m4/lua.m4"/>
+            <F
+                N="Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="test/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="test/jcl/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="test/jcl/nonreentrant/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="test/jcl/reentrant/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="test/net/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="test/net/libevent/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="test/protocol/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="test/protocol/jcl/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="test/protocol/json/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="test/security/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="test/security/pam/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="test/store/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="test/store/bdb/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="test/store/sqlite3/Makefile.am"
+                Type="Makefile"/>
+            <F N="modp_FILES.txt"/>
+            <F N="modp_LICENSE.txt"/>
+            <F N="oejcl_parser.l"/>
+            <F N="oejcl_parser.y"/>
+            <F N="test/jcl/nonreentrant/runme.l"/>
+            <F N="test/jcl/reentrant/runme.l"/>
+            <F N="test/jcl/nonreentrant/runme.y"/>
+            <F N="test/jcl/reentrant/runme.y"/>
+            <F N="../m4/sqlite-threadsafe.m4"/>
+        </Folder>
+    </Files>
+</Project>

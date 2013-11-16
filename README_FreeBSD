@@ -1,0 +1,5 @@
+look at running with or without:
+export EVENT_NOKQUEUE=1
+
+not sure what breaks but there are issues with the timers in some implementations of KQ
+

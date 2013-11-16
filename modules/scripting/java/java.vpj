@@ -1,0 +1,238 @@
+<!DOCTYPE Project SYSTEM "http://www.slickedit.com/dtd/vse/10.0/vpj.dtd">
+<Project
+    Version="10.0"
+    VendorName="SlickEdit"
+    WorkingDir=".">
+    <Config
+        Name="Debug"
+        Type="cpp"
+        DebugCallbackName="gdb"
+        OutputFile="%bdjava"
+        CompilerConfigName="Latest Version">
+        <Menu>
+            <Target
+                Name="Compile"
+                MenuCaption="&amp;Compile"
+                CaptureOutputWith="ProcessBuffer"
+                OutputExts="*.o"
+                SaveOption="SaveCurrent"
+                RunFromDir="%rw">
+                <Exec CmdLine='cc -c -g %i %defd -o "%bd%n.o" "%f"'/>
+            </Target>
+            <Target
+                Name="Link"
+                MenuCaption="&amp;Link">
+                <Exec CmdLine='cc -g -o "%o" %f %libs'/>
+            </Target>
+            <Target
+                Name="Build"
+                MenuCaption="&amp;Build"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%(VSLICKBIN1)vsbuild" build "%w" "%r"'/>
+            </Target>
+            <Target
+                Name="Rebuild"
+                MenuCaption="&amp;Rebuild"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%(VSLICKBIN1)vsbuild" rebuild "%w" "%r"'/>
+            </Target>
+            <Target
+                Name="Debug"
+                MenuCaption="&amp;Debug"
+                SaveOption="SaveNone"
+                BuildFirst="1"
+                CaptureOutputWith="ProcessBuffer"
+                RunFromDir="%rw">
+                <Exec CmdLine='vsdebugio -prog "%o"'/>
+            </Target>
+            <Target
+                Name="Execute"
+                MenuCaption="E&amp;xecute"
+                SaveOption="SaveNone"
+                BuildFirst="1"
+                CaptureOutputWith="ProcessBuffer"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%o"'/>
+            </Target>
+        </Menu>
+    </Config>
+    <Config
+        Name="Release"
+        Type="cpp"
+        DebugCallbackName="gdb"
+        OutputFile="%bdjava"
+        CompilerConfigName="Latest Version">
+        <Menu>
+            <Target
+                Name="Compile"
+                MenuCaption="&amp;Compile"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveCurrent"
+                OutputExts="*.o"
+                RunFromDir="%rw">
+                <Exec CmdLine='cc -c -O %i %defd -o "%bd%n.o" "%f"'/>
+            </Target>
+            <Target
+                Name="Link"
+                MenuCaption="&amp;Link">
+                <Exec CmdLine='cc -O -o "%o" %f %libs'/>
+            </Target>
+            <Target
+                Name="Build"
+                MenuCaption="&amp;Build"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%(VSLICKBIN1)vsbuild" build "%w" "%r"'/>
+            </Target>
+            <Target
+                Name="Rebuild"
+                MenuCaption="&amp;Rebuild"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%(VSLICKBIN1)vsbuild" rebuild "%w" "%r"'/>
+            </Target>
+            <Target
+                Name="Debug"
+                MenuCaption="&amp;Debug"
+                SaveOption="SaveNone"
+                BuildFirst="1"
+                CaptureOutputWith="ProcessBuffer"
+                RunFromDir="%rw">
+                <Exec CmdLine='vsdebugio -prog "%o"'/>
+            </Target>
+            <Target
+                Name="Execute"
+                MenuCaption="E&amp;xecute"
+                SaveOption="SaveNone"
+                BuildFirst="1"
+                CaptureOutputWith="ProcessBuffer"
+                RunFromDir="%rw">
+                <Exec CmdLine='"%o"'/>
+            </Target>
+        </Menu>
+    </Config>
+    <Rules Name="Compile">
+        <Rule
+            InputExts="*.s"
+            OutputExts="*.o"
+            LinkObject="1">
+            <Exec CmdLine='as -o "%bd%n.o" "%f"'/>
+        </Rule>
+    </Rules>
+    <Files>
+        <Folder
+            Name="Source Files"
+            Filters="*.c;*.C;*.cc;*.cpp;*.cp;*.cxx;*.c++;*.prg;*.pas;*.dpr;*.asm;*.s;*.bas;*.java;*.cs;*.sc;*.e;*.cob;*.html;*.rc;*.tcl;*.py;*.pl;*.d">
+            <F N="javaclient/test/javacc/adder/Adder.java"/>
+            <F N="javaclient/test/javacc/adder/AdderConstants.java"/>
+            <F N="javaclient/test/javacc/adder/AdderTokenManager.java"/>
+            <F N="javaclient/src/java/org/oescript/util/Base64.java"/>
+            <F N="javaclient/test/javacc/calc/Calculator.java"/>
+            <F N="javaclient/test/javacc/calc/CalculatorConstants.java"/>
+            <F N="javaclient/test/javacc/calc/CalculatorTokenManager.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/Command.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/ConCommand.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/ConResponse.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/DisCommand.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/Error.java"/>
+            <F N="javaclient/src/java/org/oescript/api/Extent.java"/>
+            <F N="javaclient/src/java/org/oescript/javaclient/ExtentClient.java"/>
+            <F N="javaclient/src/java/org/oescript/api/ExtentMsgHook.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/GetCommand.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/GetResponse.java"/>
+            <F N="javaclient/src/java/org/oescript/api/Id.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/IdFactory.java"/>
+            <F N="javaclient/src/java/org/oescript/jsonsimple/ItemList.java"/>
+            <F N="javaclient/test/javacc/jcl/Jcl.java"/>
+            <F N="javaclient/test/javacc/jcl/JclConstants.java"/>
+            <F N="javaclient/test/javacc/jcl/JclTokenManager.java"/>
+            <F N="javaclient/src/java/org/oescript/jsonsimple/JSONArray.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/JsonMessageCoder.java"/>
+            <F N="javaclient/src/java/org/oescript/jsonsimple/JSONObject.java"/>
+            <F N="javaclient/src/java/org/oescript/jsonsimple/parser/JSONParser.java"/>
+            <F N="javaclient/src/java/org/oescript/jsonsimple/JSONValue.java"/>
+            <F N="javaclient/src/java/org/oescript/api/Lease.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/Message.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/MessageCoder.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/MessageCoderException.java"/>
+            <F N="javaclient/test/javacc/adder/ParseException.java"/>
+            <F N="javaclient/test/javacc/calc/ParseException.java"/>
+            <F N="javaclient/test/javacc/jcl/ParseException.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/PutCommand.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/PutResponse.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/Response.java"/>
+            <F N="javaclient/test/javacc/adder/SimpleCharStream.java"/>
+            <F N="javaclient/test/javacc/calc/SimpleCharStream.java"/>
+            <F N="javaclient/test/javacc/jcl/SimpleCharStream.java"/>
+            <F N="javaclient/src/java/org/oescript/javaclient/SocketClient.java"/>
+            <F N="javaclient/src/java/org/oescript/javaclient/SslSocketClient.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/StaCommand.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/StaResponse.java"/>
+            <F N="javaclient/src/java/org/oescript/util/StringParse.java"/>
+            <F N="javaclient/test/antlr/test_antlr.java"/>
+            <F N="javaclient/test/javacc/adder/test_javacc_adder.java"/>
+            <F N="javaclient/test/javacc/calc/test_javacc_calc.java"/>
+            <F N="javaclient/test/javacc/jcl/test_javacc_jcl.java"/>
+            <F N="javaclient/test/test_json_server.java"/>
+            <F N="javaclient/test/test_lazy_connect.java"/>
+            <F N="javaclient/test/test_msgs.java"/>
+            <F N="javaclient/test/javacc/adder/Token.java"/>
+            <F N="javaclient/test/javacc/calc/Token.java"/>
+            <F N="javaclient/test/javacc/jcl/Token.java"/>
+            <F N="javaclient/test/javacc/adder/TokenMgrError.java"/>
+            <F N="javaclient/test/javacc/calc/TokenMgrError.java"/>
+            <F N="javaclient/test/javacc/jcl/TokenMgrError.java"/>
+            <F N="javaclient/src/java/org/oescript/api/Txn.java"/>
+            <F N="javaclient/src/java/org/oescript/api/TxnStatus.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/UplCommand.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/UplResponse.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/UptCommand.java"/>
+            <F N="javaclient/src/java/org/oescript/msg/UptResponse.java"/>
+            <F N="javaclient/src/java/org/oescript/jsonsimple/parser/Yylex.java"/>
+            <F N="javaclient/src/java/org/oescript/jsonsimple/parser/Yytoken.java"/>
+        </Folder>
+        <Folder
+            Name="Header Files"
+            Filters="*.h;*.H;*.hh;*.hpp;*.hxx;*.inc;*.sh;*.cpy;*.if"/>
+        <Folder
+            Name="Resource Files"
+            Filters="*.ico;*.cur;*.dlg"/>
+        <Folder
+            Name="Bitmaps"
+            Filters="*.bmp"/>
+        <Folder
+            Name="Other Files"
+            Filters="">
+            <F
+                N="Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="javaclient/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="javaclient/test/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="javaclient/test/antlr/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="javaclient/test/javacc/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="javaclient/test/javacc/adder/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="javaclient/test/javacc/calc/Makefile.am"
+                Type="Makefile"/>
+            <F
+                N="javaclient/test/javacc/jcl/Makefile.am"
+                Type="Makefile"/>
+        </Folder>
+    </Files>
+</Project>

@@ -1,0 +1,10 @@
+<!DOCTYPE Workspace SYSTEM "http://www.slickedit.com/dtd/vse/10.0/vpw.dtd">
+<Workspace Version="10.0" VendorName="SlickEdit">
+	<Projects>
+		<Project File="corelib/corelib.vpj"/>
+		<Project File="modules/scripting/java/java.vpj"/>
+		<Project File="modules/scripting/nodejs/nodejs.vpj"/>
+		<Project File="products/products.vpj"/>
+		<Project File="modules/scripting/swig/swig.vpj"/>
+	</Projects>
+</Workspace>

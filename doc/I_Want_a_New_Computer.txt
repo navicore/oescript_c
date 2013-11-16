@@ -1,0 +1,136 @@
+There is an essay here.  Part hysterical alarmist rant.  Part user manual
+(work in that the Wang word processor was engineered after the user manual was
+ written).
+
+I want an old fashioned layered concept of a system that does the work I 
+specify.
+
+We need a different conceptual model of computing.  (note, revisit page 46 
+in Thinking Forth) A conceptual model is an imaginary solution to a 
+problem.  The web conceptual model is that we thumb through documents.  
+The desktop conceptual model is that we control the execution of programs 
+with software that implies its capabilities through metaphor.  But what of 
+computing?  What's the conceptual model for making a computer do real 
+work, not the incedental stuff around getting input and displaying output?  
+For presenting a problem to a computer to solve?  We had it in the old 
+days, read a deck of punch cards in and print out.  Users don't program 
+anymore but what if they could?  Should they have to learn HTML, SQL, 
+PThreads, and other stuff that has nothing to do with computing answers?  
+
+It needs to be interactive at a high level.  Not what we have today.  
+Today we have folks manipulating molecules with tweezers from high orbit.  
+IDEs to create pallets of drop down boxes and to deploy rafts of software 
+to specific instances of hardware is not automation, not user computing.  
+Business programmers have more low level responsibilities than ever and 
+true domain experts are always waisting their time on too much protocol.  
+
+While today's programmers rarely have to think about a bit or a byte they 
+are just as preoccumpied with protocol as their forebearers, maybe even 
+more so.  "Too much protocol" characterizes the problem with the current 
+state-of-the-art.  The feel like they are escaping protocol with "iterative
+programming" and "configuration by convention" but these are just our best
+efforts to fight these modern programming environments.   And it is a fight.
+
+Is it that users really have nothing for a computer to do?  Are computers 
+really just a radio, TV, and books merged with telephones and CB radios?  
+Where is the "computing" happening?  Think about ReXX and CMS and the 
+spool files and batch systems.  What did users do with batch systems back 
+then that they don't need to do anymore?  Every few years we're reminded 
+that those systems never went away, that we still need them and that 
+someone is predicting a problem as the older programmers retire.  Our 
+concern here isn't that someday soon no one will know how to maintain 
+those critical systems or that younger programmers aren't taking them 
+over.  Those systems are critical and it'll be worth someone's while to 
+keep them online or replace them.  Our concern here is the lack of obvious 
+correct technology to implement similarly important, large, and complex 
+systems in the future.  Where is our common business oriented language for 
+2009?
+
+I want a language-focused, interactive, massively powerful computer that 
+can work on work I specify.  I want to specify a job with text and tell 
+the system to give an agent life to perform this job and I want to ask the 
+agent questions while it runs and possibly kill the agent when it turns 
+mean.  How the heck can WS ever be user-computing?  What were the problems 
+that the Homebrew guys imagined humans would use computers to solve?
+
+(note, warning, we are describing a unix shell without nice data and exec 
+features, but a shell nonetheless.  the similarity isn't a problem, shells 
+can do all kinds of things we don't want to expose to our new computer 
+users, and they're not clustered, not persistent, etc...) 
+
+What would the classic business applications look like if they were 
+re-implemented in this new system?  Would a GL system be sane and 
+beautiful?  What would a CRM application have to do?  Very little at its 
+core?  ERP?  
+
+What would Inet apps look like?  Telephony?  IM?  Photo and video 
+annotation?  
+
+In 1996, a friend remarked that systems management applications were a 
+huge opportunity for the future, ie: SNMP applications, etc...  He pointed 
+out what was happening with all the new development we were doing "off 
+host" in C and Smalltalk and Visual Basic.  You can't recompile all your 
+source code anymore like you could if you had to on the mainframe.  Not 
+because of technology but because people don't even keep track of all the 
+things required to regenerate systems.  In 2008 it is even worse now.  We 
+have revision control systems that are generally used on the honor system 
+and the build commands are generally run by the programmers that know how 
+to generate a system and the resulting binary images are deployed to 
+computers that are almost always installed and configured just for that 
+application.  IT professionals that take offense from these 
+characterizations should ask themselves what would happen if they and 
+their colleagues all left their posts for several weeks.  What would 
+happen?  Could strangers come in and look at the systems and understand 
+what they did and what they needed to continue doing it?  Really?  
+
+I propose a new computing environment, new abstractions to take advantage 
+of new technology.  Business applications and general computing should be 
+only done using in-language data expressions and all interactions between 
+programs should be done through a space based coordination language.  Work 
+should be submitted for processing in the form of text rather than machine 
+code.  It would be the environment's responsibility to optimize the text 
+instructions to machine code, not the user's.  This computing environment 
+has the following characteristics: 
+
+Core Ideas:
+
+    1 - many user languages
+    2 - a single coordination language
+    3 - universal encoding of user data
+    4 - environments scale linearly
+
+Elaboration:
+
+    1 - many user languages
+      - ie: c-like, java-like, python, lua, perl, ruby, cobol, haskel, scheme,
+        php, smalltalk, and new languages.
+      - Agents are instantiated from text files submitted to the environment as
+        user data.  If you want to know what an exec is doing you can always
+        look at its code, comments and all.
+
+    2 - coordination language
+      - ie: get, take, put tuples with transaction support and timeout/future
+        support for each user language.
+      - implies: lightweight processes, ie: many long running programs.  you
+        could have millions of processes running for weeks, months, or years on
+        an inexpensive node.  Coordination and waiting are nearly free.
+
+    3 - universal encoding of user data
+      - ie: UTF8 tuples (by convention only, the environment doesn't care if some
+        blobs are ISO8859_1 or UTF or EBCDIC)
+      - The effect is that Lua and Java and COBOL all talk with language-level
+        expressions and that there is no scaffolding of schemas and marshalling
+        and distributed computing cruft.
+
+    4 - environments scale linearly
+      - ie: deployment never knows what a machine is, only the space abstraction
+        and environment is non-stop
+
+There is nothing new here.  Coordination languages were described in the 
+1980s.  Interpreting text languages at runtime is not at all novel.  
+Scaling by adding hardware at runtime is from the 1970s.  However, the 
+typical programmer today works with tools and code that assumes none of 
+these things are in place.  Even when deployment is automated, they are 
+preparing a group of files to be replaced accross other computers' file 
+systems.  
+

@@ -1,0 +1,3 @@
+
+SUBDIRS = adder calc jcl
+

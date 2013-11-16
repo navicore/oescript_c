@@ -1,0 +1,10 @@
+try this:
+
+export EVENT_NOKQUEUE=1
+
+./configure CFLAGS=-I/usr/local/BerkeleyDB.4.7/include LDFLAGS=-L/usr/local/BerkeleyDB.4.7/lib --with-db-header=db.h --with-db-lib=db-4.7
+
+use this if you installed db, yaml, and libevent using pkgsrc (recommended)
+
+./configure CFLAGS=-I/usr/pkg/include LDFLAGS=-L/usr/pkg/lib --with-db-header=db4/db.h --with-db-lib=db4-4.7
+

@@ -1,0 +1,45 @@
+/* adder.jj Adding up numbers */
+options {
+    STATIC = false ;
+}
+
+
+PARSER_BEGIN(Adder)
+    import java.io.*;
+    class Adder {
+/**
+        static void main( String[] args )
+        throws ParseException, TokenMgrError {
+            Adder parser = new Adder( new ByteArrayInputStream("12 + 3".getBytes()) ) ;
+            parser.Start() ; }
+*/
+    }
+PARSER_END(Adder)
+
+
+SKIP : { " " }
+SKIP : { "\n"|"\r"|"\r\n" }
+TOKEN : { < PLUS : "+" > }
+TOKEN : { < NUMBER : (["0"-"9"])+ > }
+
+
+int Start() :
+{
+  Token t;
+  int i;
+  int value;
+}
+{
+    t = <NUMBER>
+    { i = Integer.parseInt(t.image); }
+    { value = i; }
+    (
+        <PLUS>
+        t = <NUMBER>
+        { i = Integer.parseInt(t.image); }
+        { value += i; }
+    )*
+    <EOF>
+    { return value; }
+}
+

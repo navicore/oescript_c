@@ -1,0 +1,6 @@
+ruby swig api works 100% but ruby wrapper for idiomatic ruby api is incomplete.
+
+started to convert the python impl to ruby but am in the weeds...
+
+todo: revisit after more ruby experience and oescript experience
+
