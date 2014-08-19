@@ -1,15 +1,19 @@
+# What and Why
+
 This is an experiment from a few years ago where I wanted to work out some ideas about coordination languages as APIs.  
 
 It is an effort to become a better C programmer and implement an async tuple space.
 
 
 tobuild: run:
-`./autogen.sh` [skip if building from a dowloaded platform specific tarball]
-`./configure`
-`make`
+
+    ./autogen.sh [skip if building from a dowloaded platform specific tarball]
+    ./configure
+    make
 
 to test:
-`make check`
+
+    make check
 
 if you have trouble linking to the external libs (libevent, libyaml,
 berkeleydb) see the README_yourdist file and run ./configure --help
