@@ -1,4 +1,7 @@
-# What and Why
+OeScript
+--------
+
+What and Why
 
 This is an experiment from a few years ago where I wanted to work out some ideas about coordination languages as APIs.  
 
