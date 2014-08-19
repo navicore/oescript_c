@@ -7,6 +7,8 @@ This is an experiment from a few years ago where I wanted to work out some ideas
 
 It is an effort to become a better C programmer and implement an async tuple space.
 
+I also wanted to do real work in anything except Java :) so I use C, autotools, and swig and embed berkeleyDB.  The weak point is BerkelyDB's incompatability with the Apache2 license so I hope to re-implement it someday with only Apache2 compatable licensed parts.
+
 
 tobuild: run:
 
