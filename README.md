@@ -1,3 +1,8 @@
+<!-- ghmig:moved -->
+> **This repository has moved to [https://git.navicore.tech/navicore/oescript_c](https://git.navicore.tech/navicore/oescript_c).**
+>
+> The GitHub copy is archived and no longer maintained.
+
 OeScript
 --------
 
@@ -59,4 +64,3 @@ root (this dir, root autotools stuff like configure.ac)
 each node has a test dir that supports the 'check' target
 
 'make install' will install to /opt/onextent/__________ ...product name
-
